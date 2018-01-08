@@ -9,9 +9,11 @@ namespace GOL
     public class GameRound
     {
         public int GameRoundID { get; set; }
-        public int Generation { get; set; }
+        public int Round { get; set; }
+        public string PlayingField { get; set; }
+        public int GridSize { get; set; }
 
-        public int SaveID { get; set; }
-        public SaveGame Save { get; set; }
+        //public int SaveID { get; set; }
+        public SaveGame SaveID { get; set; }
     }
 }

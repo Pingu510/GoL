@@ -6,7 +6,7 @@ namespace GOL
     public class DBContext : DbContext
     {
         public virtual DbSet<GameRound> GameRounds { get; set; }
-        public virtual DbSet<SaveGame> Saves { get; set; }         
+        public virtual DbSet<SaveGame> SaveGames { get; set; }         
         
         public DBContext()
             : base("name=DefaultConnection")

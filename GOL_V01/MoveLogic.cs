@@ -11,73 +11,73 @@ using System.Windows.Forms;
 namespace GOL
 {
     class MoveLogic // Move to game or Cell?
-    {
-        public Color _alivecellcolor { get; set; }
-        private Color _deadcellcolor { get; set; }
+    {        
         Settings s;
+        private int _gridsize { get; set; }
 
         public MoveLogic(Settings settings)
         {
             s = settings;
-            //_alivecellcolor = s.AliveCellColor;
-            //_deadcellcolor = s.DeadCellColor;
+            _gridsize = s.GridSize;
         }
 
         public void PlayRound(Settings s)
         {
             bool cellstatealive;
-            for (int y = 0; y < s.GridSize; y++) // -1?
+            for (int y = 0; y < _gridsize; y++)
             {
-                for (int x = 0; x < s.GridSize; x++)
+                for (int x = 0; x < _gridsize; x++)
                 {
-                    int neighboursalive = CheckCellArea(s.PastGameTurn, x, y);
-                    cellstatealive = DoRulesMath(neighboursalive, CheckIfCellAlive(s.PastGameTurn[x, y]));
+                    int neighboursalive = CheckCellNeighbourhood(s.PastGameTurn, x, y);
+                    cellstatealive = DoRulesMath(neighboursalive, CheckCellState(s.PastGameTurn[x, y]));
 
                     if (cellstatealive == true)
                         s.NewGameTurn[x, y] = 1;
                     else
                         s.NewGameTurn[x, y] = 0;
-
-                    
                 }
             }
         }
 
-        private int CheckCellArea(int[,] IntArray, int PosX, int PosY)
+        /// <summary>
+        /// Checks if the surrounding cells are alive
+        /// </summary>
+        private int CheckCellNeighbourhood(int[,] IntArray, int PosX, int PosY)
         {
-            int boundary = (int)Math.Sqrt(IntArray.Length) - 1;
-            int newPosX = PosX - 1;
-            int newPosY = PosY - 1;
-            int livecount = 0;
+            int boundary = _gridsize -1;
+            int closneighboursPosX = PosX - 1;
+            int closneighboursPosY = PosY - 1;
+            int aliveneighbours = 0;
             bool positionlive;
-
-
+            
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (PosX == newPosX && PosY == newPosY) { }
-                    //Do nothing
-
-                    else if ((newPosX <= boundary && newPosX >= 0) && (newPosY <= boundary && newPosY >= 0)) // If it's WITHIN the bondary
+                    if (PosX == closneighboursPosX && PosY == closneighboursPosY) { }
+                        //Do nothing
+                    else if ((closneighboursPosX <= boundary && closneighboursPosX >= 0) && (closneighboursPosY <= boundary && closneighboursPosY >= 0)) // If it's WITHIN the bondary/grid
                     {
-                        positionlive = CheckIfCellAlive(IntArray[newPosX, newPosY]);
+                        positionlive = CheckCellState(IntArray[closneighboursPosX, closneighboursPosY]);
                         if (positionlive == true)
-                            livecount++;
+                            aliveneighbours++;
                     }
                     else
                     {
                         positionlive = false;
                     }
-                    newPosX++;
+                    closneighboursPosX++;
                 }
 
-                newPosX = PosX - 1;
-                newPosY++;
+                closneighboursPosX = PosX - 1;
+                closneighboursPosY++;
             }
-            return livecount;
+            return aliveneighbours;
         }
 
+        /// <summary>
+        /// Applies the rules of the game
+        /// </summary>
         private bool DoRulesMath(int AliveNeighbours, bool IsAlive)
         {
             if (AliveNeighbours < 2)
@@ -93,25 +93,32 @@ namespace GOL
                 return false;
         }
 
-        private bool CheckIfCellAlive(int cell)
+        /// <summary>
+        /// Checks if the cell is alive
+        /// </summary>
+        private bool CheckCellState(int cell)
         {
             if (cell == 1)
                 return true;
-
             else
                 return false;
         }
 
-        public void SetCellAliveState(bool alive, int cell)
+        /// <summary>
+        /// Sets the cell to 1 if bool is true
+        /// </summary>
+        private void SetCellAliveState(bool alive, int cell)
         {
             if (alive)
                 cell = 1;
             else
                 cell = 0;
         }
-
         
-        public string Rules()
+        /// <summary>
+        /// Formatted string of the rules of the game
+        /// </summary>
+        public string GetRules()
         {
             string rules = "Game of Life: Rules: \n" +
                 "Any live cell with fewer than two live neighbours dies, as if caused by underpopulation. \n" +

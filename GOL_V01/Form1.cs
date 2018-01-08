@@ -83,7 +83,9 @@ namespace GOL
             }
         }
         
-        
+        /// <summary>
+        /// Detta är en testfunk, flytta och ändra som ni vill
+        /// </summary>
         private void LightButtonTest() // Tänk att origo är i övre vänstra hörnet [x,y], (y går nedåt fast positiv) 
         {
             s.PastGameTurn[0, 0] = 1;
@@ -101,13 +103,29 @@ namespace GOL
             using (var context = new DBContext())
             {
                 var newsave = new SaveGame();
-                newsave.SaveName = "Spel1";
-                context.Saves.Add(newsave);
+                newsave.SaveName = "Spel2";
+                context.SaveGames.Add(newsave);
+                context.SaveChanges();
+            }
+            using (var context = new DBContext())
+            {
+                var newsave = new SaveGame();
+                newsave.SaveName = "BestGame";
+                var gameRound = new GameRound();
+                gameRound.GridSize = s.GridSize;
+                gameRound.PlayingField = s.PastGameTurn.ToString();
+                gameRound.Round = 1;
+                
+                gameRound.SaveID = newsave;
+                context.SaveGames.Add(newsave);
+                context.GameRounds.Add(gameRound);
                 context.SaveChanges();
             }
                    
         }
                 
+
+
         private void btnStart_Click(object sender, EventArgs e)
         {
             PlayRound();
