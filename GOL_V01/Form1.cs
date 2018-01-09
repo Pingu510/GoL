@@ -8,7 +8,7 @@ namespace GOL
     public partial class Form1 : Form
     {
         Settings s;
-        //Game g;
+        SaveGame save;
         MoveLogic ml;
         GUI_Options GUI = new GUI_Options();
         Button[,] gamebuttongridarray;
@@ -82,10 +82,42 @@ namespace GOL
                 y++;
             }
         }
+        private void SaveGame()
+        {
+            save.IfSaveGame(string SaveName);
+        }
         
+        private void SaveRound(Game game)
+        {
+            string currentround = "";
+            foreach( var position in s.PastGameTurn)
+            {
+                currentround += position + ",";
+            }
+            save.IfSaveRounds(string currentround);
+        }
+        private void GetSavedArray(string gameround, int gridsize)
+        {
+            s.GridSize = gridsize;
+            string[] temparr = gameround.Split(',');
+            int n = 0;
+            for (int y = 0; y < gridsize; y++)
+            {
+                for (int x = 0; x < gridsize; x++)
+                {
+                    s.NewGameTurn[x, y] = Int32.Parse(temparr[n]);
+                    n++;
+                }
+            }
+        }
+
+        private string GetRound(int GameId)
+        { }
+
         /// <summary>
         /// Detta är en testfunk, flytta och ändra som ni vill
         /// </summary>
+        
         private void LightButtonTest() // Tänk att origo är i övre vänstra hörnet [x,y], (y går nedåt fast positiv) 
         {
             s.PastGameTurn[0, 0] = 1;
