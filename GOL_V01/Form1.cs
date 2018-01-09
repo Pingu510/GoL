@@ -8,8 +8,8 @@ namespace GOL
     public partial class Form1 : Form
     {
         Settings s;
-        SaveGame save;
         MoveLogic ml;
+        SaveGame save = new SaveGame();
         GUI_Options GUI = new GUI_Options();
         Button[,] gamebuttongridarray;
         List <Game> ListOfSavedGames = new List<Game>();
@@ -22,8 +22,9 @@ namespace GOL
             gamebuttongridarray = new Button[s.GridSize, s.GridSize];
             ml = new MoveLogic(s);
             CreateGrid();
-            LightButtonTest();
+            LightButtonTest(); // Test
             UpdateGrid();
+            UpdateLoadListBox(); // Test
         }
                
         /// <summary>
@@ -84,7 +85,7 @@ namespace GOL
         }
         private void SaveGame(string SaveName)
         {
-            save.IfSaveGame(SaveName);
+            save.DoSaveGame(SaveName);
         }
         
         private void SaveRound(Game game)
@@ -94,9 +95,15 @@ namespace GOL
             {
                 currentround += position + ",";
             }
-            save.IfSaveRounds(currentround);
+            save.DoSaveRounds(currentround, s.GridSize);
         }
-        private void GetSavedArray(string gameround, int gridsize)
+
+        /// <summary>
+        /// Takes the loaded string and makes it into the GameArrays
+        /// </summary>
+        /// <param name="gameround"></param>
+        /// <param name="gridsize"></param>
+        private void MakeSavedRoundArray(string gameround, int gridsize)
         {
             s.GridSize = gridsize;
             string[] temparr = gameround.Split(',');
@@ -105,14 +112,21 @@ namespace GOL
             {
                 for (int x = 0; x < gridsize; x++)
                 {
-                    s.NewGameTurn[x, y] = Int32.Parse(temparr[n]);
+                    int i = Int32.Parse(temparr[n]);
+                    s.NewGameTurn[x, y] = i;
+                    s.PastGameTurn[x, y] = i;
                     n++;
                 }
             }
         }
 
-        //private string GetRound(int GameId)
-        //{ }
+        private void LoadRound(Game g)
+        {
+            //select game in load click
+            //update s.gridsize from loadedgame?
+            string loadedgameround = save.LoadGame(g);
+            MakeSavedRoundArray(loadedgameround, s.GridSize);
+        }
 
         /// <summary>
         /// Detta är en testfunk, flytta och ändra som ni vill
@@ -157,7 +171,21 @@ namespace GOL
             }
                    
         }
-                
+
+        private void UpdateLoadListBox()
+        {
+            lstBxSavedGames.Items.Clear();
+            using (var context = new DBContext())
+            {
+                var saves = context.Games;
+
+                foreach (var save in saves)
+                {
+                    lstBxSavedGames.Items.Add(save.SaveName);
+                }                
+            }
+        }
+
 
 
         private void btnStart_Click(object sender, EventArgs e)

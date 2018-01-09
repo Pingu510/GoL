@@ -9,35 +9,48 @@ namespace GOL
     public class SaveGame
     {
         //två funktioner, en för att spara spel och en för att spara varje runda.
-        Settings s;
+        Game _currentgame;
 
-        public void IfSaveGame(string SaveName)//spara spel
+        public void DoSaveGame(string SaveName)//spara spel
         {
             using (var context = new DBContext())
             {
                 var newsave = new Game();
-                newsave.SaveName = "BestGame";
+                newsave.SaveName = SaveName;
                 newsave.SaveDate = System.DateTime.Now;
                 context.Games.Add(newsave);
+                _currentgame = newsave; // får se om detta funkar
+                context.SaveChanges();
             }
-            return;
+            //return; onödig då det är void
         }
 
-        public void IfSaveRounds(string currentroundstring)//save rounds
+        public void DoSaveRounds(string CurrentGameRound, int GridSize)//save rounds
         {
             using (var context = new DBContext())
             {
                 var newround = new GameRound();
-                
-                newround.GridSize = s.GridSize;
-                newround.PlayingField = currentroundstring;
-                newround.Round = 1;
-           
+                newround.SaveID = _currentgame; // Funkar detta?
+                newround.GridSize = GridSize;
+                newround.PlayingField = CurrentGameRound;
+                newround.Round = 1; // Måste ökas på ngt vis
+
                 context.Rounds.Add(newround);
                 context.SaveChanges();
             }
-        
         }
 
+        public void DeleteGame(Game g)
+        {
+            //Delete all rounds connected to this g
+        }
+
+        public string LoadGame(Game g)
+        {
+            string loadedgamefirstround = "";
+
+
+            return loadedgamefirstround;
+        }        
     }
 }
