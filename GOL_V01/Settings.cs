@@ -80,7 +80,7 @@ namespace GOL
             _deadColor = Color.DarkOrange;
             GamePanel.Height = GamePanel.Width; // ensures a square panel
             gamesize = GamePanel.Width;
-            gridsize = 3; // Number of Rows/Columns
+            gridsize = 10; // Number of Rows/Columns
 
             UpdateSettings();
         }

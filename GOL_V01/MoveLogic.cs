@@ -21,6 +21,11 @@ namespace GOL
             _gridsize = s.GridSize;
         }
 
+
+
+        
+
+
         public void PlayRound(Settings s)
         {
             bool cellstatealive;
@@ -38,6 +43,10 @@ namespace GOL
                 }
             }
         }
+
+
+
+        
 
         /// <summary>
         /// Checks if the surrounding cells are alive

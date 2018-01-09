@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,6 +8,7 @@ namespace GOL
 {
     public partial class Form1 : Form
     {
+        Point location;
         Settings s;
         MoveLogic ml;
         SaveGame save = new SaveGame();
@@ -18,6 +20,8 @@ namespace GOL
         {
             InitializeComponent();
 
+            //MouseClick += mouseClick;
+
             s = new Settings(GameGrid_Panel);
             gamebuttongridarray = new Button[s.GridSize, s.GridSize];
             ml = new MoveLogic(s);
@@ -26,7 +30,17 @@ namespace GOL
             UpdateGrid();
             UpdateLoadListBox(); // Test
         }
-               
+
+
+
+        //private void mouseClick(object sender, MouseEventArgs e)
+        //{
+        //    if ( == ButtonState.Pushed)
+        //    {
+        //        cellstatealive = true;
+        //    }
+        //}
+
         /// <summary>
         /// Creates the Grid with new buttons
         /// </summary>
@@ -47,6 +61,9 @@ namespace GOL
                         Size = new Size(s.ButtonSize, s.ButtonSize),
                         Location = templocation
                     };
+                    b.Click += Grid_btn_Click;
+
+            
                     s.PastGameTurn[x, y] = 0;
                     gamebuttongridarray[x, y] = b;
 
@@ -59,6 +76,18 @@ namespace GOL
             }
             UpdateGrid();
         }
+
+        public void Grid_btn_Click(object sender, EventArgs e)
+        {
+            var btn = (Button)sender;
+            btn.BackColor = s.AliveCellColor;
+            location = btn.Location;
+            //location / 10;
+            // calculate wich row/col the location corresponds to
+            lstBxSavedGames.Items.Add(location);
+
+        }
+
         private void PlayRound()
         {
             ml.PlayRound(s);
@@ -113,6 +142,13 @@ namespace GOL
                 for (int x = 0; x < gridsize; x++)
                 {
                     int i = Int32.Parse(temparr[n]);
+
+
+                    //s.NewGameTurn[] = i;
+
+
+
+
                     s.NewGameTurn[x, y] = i;
                     s.PastGameTurn[x, y] = i;
                     n++;
@@ -139,6 +175,10 @@ namespace GOL
             s.PastGameTurn[1, 1] = 1;
             s.PastGameTurn[0, 2] = 1;
             s.PastGameTurn[1, 2] = 1;
+
+           // s.PastGameTurn[] = 1;
+
+
             s.NewGameTurn[0, 0] = 1;
             s.NewGameTurn[0, 1] = 1;
             s.NewGameTurn[1, 1] = 1;
