@@ -1,0 +1,22 @@
+ 
+Beacon
+
+
+
+	    s.PastGameTurn[4, 4] = 1;
+            s.PastGameTurn[5, 4] = 1;
+            s.PastGameTurn[4, 5] = 1;
+
+            s.PastGameTurn[6, 7] = 1;
+            s.PastGameTurn[7, 6] = 1;
+            s.PastGameTurn[7, 7] = 1;
+
+
+
+ 	    s.NewGameTurn[4, 4] = 1;
+            s.NewGameTurn[5, 4] = 1;
+            s.NewGameTurn[4, 5] = 1;
+
+            s.NewGameTurn[6, 7] = 1;
+            s.NewGameTurn[7, 6] = 1;
+            s.NewGameTurn[7, 7] = 1;
