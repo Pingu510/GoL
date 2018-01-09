@@ -23,7 +23,7 @@ namespace GOL
             return;
         }
 
-        public void IfSaveRounds(string y)//save rounds
+        public void IfSaveRounds(string currentroundstring)//save rounds
         {
             using (var context = new DBContext())
             {

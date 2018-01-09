@@ -82,9 +82,9 @@ namespace GOL
                 y++;
             }
         }
-        private void SaveGame()
+        private void SaveGame(string SaveName)
         {
-            save.IfSaveGame(string SaveName);
+            save.IfSaveGame(SaveName);
         }
         
         private void SaveRound(Game game)
@@ -94,7 +94,7 @@ namespace GOL
             {
                 currentround += position + ",";
             }
-            save.IfSaveRounds(string currentround);
+            save.IfSaveRounds(currentround);
         }
         private void GetSavedArray(string gameround, int gridsize)
         {
@@ -111,8 +111,8 @@ namespace GOL
             }
         }
 
-        private string GetRound(int GameId)
-        { }
+        //private string GetRound(int GameId)
+        //{ }
 
         /// <summary>
         /// Detta är en testfunk, flytta och ändra som ni vill
