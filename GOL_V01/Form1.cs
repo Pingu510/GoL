@@ -8,7 +8,7 @@ namespace GOL
     public partial class Form1 : Form
     {
         Settings s;
-        Game g;
+        //Game g;
         MoveLogic ml;
         GUI_Options GUI = new GUI_Options();
         Button[,] gamebuttongridarray;
@@ -100,25 +100,27 @@ namespace GOL
             s.NewGameTurn[1, 2] = 1;
 
             // Test
+            
             using (var context = new DBContext())
             {
-                var newsave = new SaveGame();
-                newsave.SaveName = "Spel2";
-                context.SaveGames.Add(newsave);
-                context.SaveChanges();
-            }
-            using (var context = new DBContext())
-            {
-                var newsave = new SaveGame();
+                var newsave = new Game();
                 newsave.SaveName = "BestGame";
-                var gameRound = new GameRound();
-                gameRound.GridSize = s.GridSize;
-                gameRound.PlayingField = s.PastGameTurn.ToString();
-                gameRound.Round = 1;
+                newsave.SaveDate = System.DateTime.Now;
+
+                var newround = new GameRound();
                 
-                gameRound.SaveID = newsave;
-                context.SaveGames.Add(newsave);
-                context.GameRounds.Add(gameRound);
+                string currentroundstring = "";
+                foreach (var position in s.PastGameTurn)
+                {
+                    currentroundstring = currentroundstring + "," + position;
+                }
+                newround.GridSize = s.GridSize;
+                newround.PlayingField = currentroundstring;
+                newround.Round = 1;
+                
+                newround.SaveID = newsave;
+                context.Games.Add(newsave);
+                context.Rounds.Add(newround);
                 context.SaveChanges();
             }
                    
@@ -139,8 +141,8 @@ namespace GOL
         private void btnStop_Click(object sender, EventArgs e)
         {
             GUI.StopGame();
-            lstBxSavedGames.Items.Add(g);
-            ListOfSavedGames.Add(g);
+            //lstBxSavedGames.Items.Add(g);
+            //ListOfSavedGames.Add(g);
         }
 
 

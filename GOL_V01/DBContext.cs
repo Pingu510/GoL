@@ -5,8 +5,8 @@ namespace GOL
 {
     public class DBContext : DbContext
     {
-        public virtual DbSet<GameRound> GameRounds { get; set; }
-        public virtual DbSet<SaveGame> SaveGames { get; set; }         
+        public virtual DbSet<GameRound> Rounds { get; set; }
+        public virtual DbSet<Game> Games { get; set; }         
         
         public DBContext()
             : base("name=DefaultConnection")

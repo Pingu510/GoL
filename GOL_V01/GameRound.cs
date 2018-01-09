@@ -14,6 +14,6 @@ namespace GOL
         public int GridSize { get; set; }
 
         //public int SaveID { get; set; }
-        public SaveGame SaveID { get; set; }
+        public Game SaveID { get; set; }
     }
 }

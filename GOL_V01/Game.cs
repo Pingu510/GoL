@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 namespace GOL
 {
     public class Game
-    {
-        public string Name { get; set; }
-
-        public Game(string gameName)
-        {
-
-        }
+    {        
+        public int GameID { get; set; }
+        public string SaveName { get; set; }
+        public DateTime? SaveDate { get; set; }        
     }
 }
