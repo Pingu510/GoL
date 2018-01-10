@@ -267,7 +267,8 @@ namespace GOL
         private void btnLoad_Click(object sender, EventArgs e)
         {
             string gamename = "";
-            //send the selected gamename or game             
+            //send the selected gamename or game 
+            // FIX THIS
             string loadedgameround = saveorload.GetLoadGamePlayingfield(gamename);
             MakeLoadedRoundToAnArray(loadedgameround, s.GridSize);
             //int LoadIndexNr = 0;
