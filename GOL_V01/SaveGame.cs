@@ -32,7 +32,7 @@ namespace GOL
             using (var context = new DBContext())
             {
                 var newround = new GameRound();
-               newround.SaveID = _currentgame; // Funkar detta?
+                newround.SaveID = _currentgame; // Funkar detta?
                 newround.GridSize = s.GridSize;
                 //string currentroundstring = "";//
                 //  foreach (var position in s.PastGameTurn)
@@ -67,14 +67,25 @@ namespace GOL
         public void DeleteGame(Game g)
         {
             //Delete all rounds connected to this g
+            //cascade delete?
         }
 
-        public string LoadGame(Game g)
+        public string GetLoadGamePlayingfield(string LoadGameName)
         {
             string loadedgamefirstround = "";
-
-
+            using (var c = new DBContext())
+            {
+                Game gamefound = c.Games.Find(LoadGameName); // works?
+                var savefound = c.Rounds;
+                foreach (var item in savefound)
+                {
+                    if (item.SaveID == gamefound)
+                    {
+                        loadedgamefirstround = item.PlayingField;
+                    }
+                }
+            }
             return loadedgamefirstround;
-        }        
+        }
     }
 }

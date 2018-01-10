@@ -11,7 +11,7 @@ namespace GOL
         Point location;
         Settings s;
         MoveLogic ml;
-        SaveGame save = new SaveGame();
+        SaveGame saveorload = new SaveGame();
         GUI_Options GUI = new GUI_Options();
         Button[,] gamebuttongridarray;
         List <Game> ListOfSavedGames = new List<Game>();
@@ -142,9 +142,10 @@ namespace GOL
                 y++;
             }
         }
+
         private void SaveGame(string SaveName)
         {
-            save.DoSaveGame("X");
+            saveorload.DoSaveGame("X");
         }
         
         private void SaveRound(Game game)
@@ -154,15 +155,15 @@ namespace GOL
             {
                 currentround += position + ",";
             }
-            save.DoSaveRounds(currentround, s.GridSize);
+            saveorload.DoSaveRounds(currentround, s.GridSize);
         }
 
+
+        
         /// <summary>
         /// Takes the loaded string and makes it into the GameArrays
         /// </summary>
-        /// <param name="gameround"></param>
-        /// <param name="gridsize"></param>
-        private void MakeSavedRoundArray(string gameround, int gridsize)
+        private void MakeLoadedRoundToAnArray(string gameround, int gridsize)
         {
             s.GridSize = gridsize;
             string[] temparr = gameround.Split(',');
@@ -172,13 +173,7 @@ namespace GOL
                 for (int x = 0; x < gridsize; x++)
                 {
                     int i = Int32.Parse(temparr[n]);
-
-
-                    //s.NewGameTurn[] = i;
-
-
-
-
+                    
                     s.NewGameTurn[x, y] = i;
                     s.PastGameTurn[x, y] = i;
                     n++;
@@ -186,18 +181,11 @@ namespace GOL
             }
         }
 
-        private void LoadRound(Game g)
-        {
-            //select game in load click
-            //update s.gridsize from loadedgame?
-            string loadedgameround = save.LoadGame(g);
-            MakeSavedRoundArray(loadedgameround, s.GridSize);
-        }
 
         /// <summary>
         /// Detta är en testfunk, flytta och ändra som ni vill
         /// </summary>
-        
+
         private void LightButtonTest() // Tänk att origo är i övre vänstra hörnet [x,y], (y går nedåt fast positiv) 
         {
             s.PastGameTurn[0, 0] = 1;
@@ -278,12 +266,16 @@ namespace GOL
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            int LoadIndexNr = 0;
-            if (lstBxSavedGames.SelectedItem != null)
-                LoadIndexNr = lstBxSavedGames.SelectedIndex - 1;
+            string gamename = "";
+            //send the selected gamename or game             
+            string loadedgameround = saveorload.GetLoadGamePlayingfield(gamename);
+            MakeLoadedRoundToAnArray(loadedgameround, s.GridSize);
+            //int LoadIndexNr = 0;
+            //if (lstBxSavedGames.SelectedItem != null)
+            //    LoadIndexNr = lstBxSavedGames.SelectedIndex - 1;
 
 
-            GUI.LoadGame(LoadIndexNr);
+            //GUI.LoadGame(LoadIndexNr);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
