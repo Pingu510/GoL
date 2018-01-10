@@ -59,8 +59,11 @@ namespace GOL
                     {
                         Parent = GameGrid_Panel,
                         Size = new Size(s.ButtonSize, s.ButtonSize),
-                        Location = templocation
+                        Location = templocation,
+                        FlatStyle = FlatStyle.Flat,
                     };
+                    b.FlatAppearance.BorderSize = 1;
+                    b.FlatAppearance.BorderColor = Color.LightGray;
                     b.Click += Grid_btn_Click;
 
             
@@ -103,11 +106,13 @@ namespace GOL
             {
                 btn.BackColor = s.AliveCellColor;
                 s.NewGameTurn[found_x, found_y] = 1;
+                s.PastGameTurn[found_x, found_y] = 1;
             }
             else
             {
                 btn.BackColor = s.DeadCellColor;
                 s.NewGameTurn[found_x, found_y] = 0;
+                s.PastGameTurn[found_x, found_y] = 0;
             }
             UpdateGrid();
         }
@@ -118,6 +123,7 @@ namespace GOL
             s.PastGameTurn = (int[,])s.NewGameTurn.Clone();
             UpdateGrid();
         }
+
         private void UpdateGrid()
         {
             for (int y = 0; y < s.GridSize;)
@@ -303,6 +309,11 @@ namespace GOL
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

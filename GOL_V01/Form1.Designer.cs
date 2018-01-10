@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.GameGrid_Panel = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.lstBxSavedGames = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -45,20 +44,11 @@
             // 
             // GameGrid_Panel
             // 
-            this.GameGrid_Panel.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.GameGrid_Panel.Location = new System.Drawing.Point(472, 3);
+            this.GameGrid_Panel.BackColor = System.Drawing.Color.White;
+            this.GameGrid_Panel.Location = new System.Drawing.Point(230, 12);
             this.GameGrid_Panel.Name = "GameGrid_Panel";
-            this.GameGrid_Panel.Size = new System.Drawing.Size(547, 531);
+            this.GameGrid_Panel.Size = new System.Drawing.Size(600, 600);
             this.GameGrid_Panel.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(362, 275);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // lstBxSavedGames
             // 
@@ -121,7 +111,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(486, 540);
+            this.btnStart.Location = new System.Drawing.Point(60, 282);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 5;
@@ -131,7 +121,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(876, 540);
+            this.btnStop.Location = new System.Drawing.Point(60, 385);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(107, 23);
             this.btnStop.TabIndex = 6;
@@ -141,7 +131,7 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(944, 586);
+            this.btnExit.Location = new System.Drawing.Point(6, 583);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 8;
@@ -151,12 +141,13 @@
             // 
             // btnPause
             // 
-            this.btnPause.Location = new System.Drawing.Point(681, 540);
+            this.btnPause.Location = new System.Drawing.Point(60, 325);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(75, 23);
             this.btnPause.TabIndex = 9;
             this.btnPause.Text = "Pause";
             this.btnPause.UseVisualStyleBackColor = true;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
             // Form1
             // 
@@ -168,7 +159,6 @@
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.GameGrid_Panel);
             this.Name = "Form1";
             this.ShowIcon = false;
@@ -182,7 +172,6 @@
         #endregion
 
         private System.Windows.Forms.Panel GameGrid_Panel;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox lstBxSavedGames;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txbNameOfTheGame;

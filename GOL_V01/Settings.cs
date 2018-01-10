@@ -10,8 +10,6 @@ namespace GOL
 {
     public class Settings // Later we could have table for settings in db so user can set it and save
     {
-        //public Button[,] NewGameTurn;
-        //public Button[,] PastGameTurn;
         public int[,] NewGameTurn;
         public int[,] PastGameTurn;
 
@@ -58,7 +56,7 @@ namespace GOL
                 UpdateSettings();
             }
         }
-                
+
         /// <summary>
         /// Updates values depending on new sets
         /// </summary>
@@ -68,19 +66,16 @@ namespace GOL
             NewGameTurn = new int[gridsize, gridsize]; //Måste matcha det man laddar in
             if (PastGameTurn == null) // Om spelplanen(arrayen) är tom/null så skapas ny
                 PastGameTurn = new int[gridsize, gridsize];
-            //NewGameTurn = new Button[gridsize, gridsize]; //Måste matcha det man laddar in
-            //if (PastGameTurn == null) // Om spelplanen(arrayen) är tom/null så skapas ny
-            //    PastGameTurn = new Button[gridsize, gridsize];
         }
 
 
         public Settings(Panel GamePanel)
         {
-            _aliveColor = Color.Green;
-            _deadColor = Color.DarkOrange;
+            _aliveColor = Color.Black;
+            _deadColor = Color.Transparent;
             GamePanel.Height = GamePanel.Width; // ensures a square panel
             gamesize = GamePanel.Width;
-            gridsize = 10; // Number of Rows/Columns
+            gridsize = 40; // Number of Rows/Columns
 
             UpdateSettings();
         }
