@@ -79,13 +79,37 @@ namespace GOL
 
         public void Grid_btn_Click(object sender, EventArgs e)
         {
-            var btn = (Button)sender;
-            btn.BackColor = s.AliveCellColor;
-            location = btn.Location;
-            //location / 10;
-            // calculate wich row/col the location corresponds to
-            lstBxSavedGames.Items.Add(location);
+            Button btn = (Button)sender;
+            int found_x = -1;
+            int found_y = -1;
 
+            for (int x = 0; x < s.GridSize && found_x < 0; ++x)
+            {
+                for (int y = 0; y < s.GridSize; ++y)
+                {
+                    if (gamebuttongridarray[x, y] == btn) // (or maybe 'object.ReferenceEqual')
+                    {
+                        found_x = x;
+                        found_y = y;
+                        break;
+                    }
+                }
+            }
+
+            // Remove this after testing
+            lstBxSavedGames.Items.Add(found_x + "   ---  " + found_y);
+
+            if (btn.BackColor != s.AliveCellColor)
+            {
+                btn.BackColor = s.AliveCellColor;
+                s.NewGameTurn[found_x, found_y] = 1;
+            }
+            else
+            {
+                btn.BackColor = s.DeadCellColor;
+                s.NewGameTurn[found_x, found_y] = 0;
+            }
+            UpdateGrid();
         }
 
         private void PlayRound()
