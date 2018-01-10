@@ -144,7 +144,7 @@ namespace GOL
         }
         private void SaveGame(string SaveName)
         {
-            save.DoSaveGame(SaveName);
+            save.DoSaveGame("X");
         }
         
         private void SaveRound(Game game)
@@ -216,30 +216,30 @@ namespace GOL
             s.NewGameTurn[1, 2] = 1;
 
             // Test
-            
-            using (var context = new DBContext())
-            {
-                var newsave = new Game();
-                newsave.SaveName = "BestGame";
-                newsave.SaveDate = System.DateTime.Now;
 
-                var newround = new GameRound();
-                
-                string currentroundstring = "";
-                foreach (var position in s.PastGameTurn)
-                {
-                    currentroundstring = currentroundstring + "," + position;
-                }
-                newround.GridSize = s.GridSize;
-                newround.PlayingField = currentroundstring;
-                newround.Round = 1;
-                
-                newround.SaveID = newsave;
-                context.Games.Add(newsave);
-                context.Rounds.Add(newround);
-                context.SaveChanges();
-            }
-                   
+            //using (var context = new DBContext())
+            //{
+            //    var newsave = new Game();
+            //    newsave.SaveName = "BestGame";
+            //    newsave.SaveDate = System.DateTime.Now;
+
+            //    var newround = new GameRound();
+
+            //    string currentroundstring = "";
+            //    foreach (var position in s.PastGameTurn)
+            //    {
+            //        currentroundstring = currentroundstring + "," + position;
+            //    }
+            //    newround.GridSize = s.GridSize;
+            //    newround.PlayingField = currentroundstring;
+            //    newround.Round = 4;
+
+            //    newround.SaveID = newsave;
+            //    context.Games.Add(newsave);
+            //    context.Rounds.Add(newround);
+            //    context.SaveChanges();
+            //}
+
         }
 
         private void UpdateLoadListBox()
