@@ -10,11 +10,11 @@ namespace GOL
 {
     public class Settings // Later we could have table for settings in db so user can set it and save
     {
-        public int[,] NewGameTurn;
-        public int[,] PastGameTurn;
+        public int[,] NewGameTurnArray;
+        public int[,] PastGameTurnArray;
 
-        private int gamesize;
-        private int gridsize;
+        private int gameSize;
+        private int gridSize;
         private Color _aliveColor;
         private Color _deadColor;
                 
@@ -38,8 +38,8 @@ namespace GOL
         /// </summary>
         public int GameSize
         {
-            get { return gamesize; }
-            set { gamesize = value;
+            get { return gameSize; }
+            set { gameSize = value;
                 UpdateSettings();
             }
         }
@@ -50,8 +50,8 @@ namespace GOL
         /// </summary>
         public int GridSize
         {
-            get { return gridsize; }
-            set { gridsize = value;
+            get { return gridSize; }
+            set { gridSize = value;
                 //PastGameTurn = null; This solves that^ but will erase current game and other games saved in other size will error
                 UpdateSettings();
             }
@@ -62,10 +62,10 @@ namespace GOL
         /// </summary>
         private void UpdateSettings()
         {
-            ButtonSize = gamesize / gridsize;
-            NewGameTurn = new int[gridsize, gridsize]; //Måste matcha det man laddar in
-            if (PastGameTurn == null) // Om spelplanen(arrayen) är tom/null så skapas ny
-                PastGameTurn = new int[gridsize, gridsize];
+            ButtonSize = gameSize / gridSize;
+            NewGameTurnArray = new int[gridSize, gridSize]; //Måste matcha det man laddar in
+            if (PastGameTurnArray == null) // Om spelplanen(arrayen) är tom/null så skapas ny
+                PastGameTurnArray = new int[gridSize, gridSize];
         }
 
 
@@ -74,8 +74,8 @@ namespace GOL
             _aliveColor = Color.Black;
             _deadColor = Color.Transparent;
             GamePanel.Height = GamePanel.Width; // ensures a square panel
-            gamesize = GamePanel.Width;
-            gridsize = 3; // Number of Rows/Columns
+            gameSize = GamePanel.Width;
+            gridSize = 3; // Number of Rows/Columns
 
             UpdateSettings();
         }

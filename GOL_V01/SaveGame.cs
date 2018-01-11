@@ -9,20 +9,20 @@ namespace GOL
     public class SaveGame
     {
         //två funktioner, en för att spara spel och en för att spara varje runda.
-        Game _currentgame;
-        int gridsize;
-        int increaseround;
+        Game _currentGame;
+        int gridSize;
+        int increaseRound;
 
         public void DoSaveGame(string SaveName)//spara spel
         {
-            increaseround = 0;
+            increaseRound = 0;
             using (var context = new DBContext())
             {
-                var newsave = new Game();
-                newsave.SaveName = SaveName; 
-                newsave.SaveDate = DateTime.Now;                
-                _currentgame = newsave;
-                context.Games.Add(newsave);
+                var newSave = new Game();
+                newSave.SaveName = SaveName; 
+                newSave.SaveDate = DateTime.Now;                
+                _currentGame = newSave;
+                context.Games.Add(newSave);
                 context.SaveChanges();
             }         
         }
@@ -31,13 +31,13 @@ namespace GOL
         {         
             using (var context = new DBContext())
             {
-                var newround = new GameRound();
-                newround.SaveID = _currentgame;
-                newround.GridSize = GridSize;
-                newround.Round = increaseround++;
-                newround.PlayingField = CurrentGameRound;
+                var newRound = new GameRound();
+                newRound.SaveID = _currentGame;
+                newRound.GridSize = GridSize;
+                newRound.Round = increaseRound++;
+                newRound.PlayingField = CurrentGameRound;
 
-                context.Rounds.Add(newround);
+                context.Rounds.Add(newRound);
                 context.SaveChanges();
             }
         }
@@ -50,22 +50,22 @@ namespace GOL
 
         public int GetSavedGridSize()
         {
-            return gridsize;
+            return gridSize;
         }
 
         public string GetLoadGamePlayingfield(string LoadGameName)
         {
-            string loadedgamefirstround = "";
+            string loadedGameFirstRound = "";
             using (var c = new DBContext())
             {
-                Game gamefound = null;
+                Game gameFound = null;
                 bool _continue = false;
 
                 foreach (Game g in c.Games)
                 {
                     if(g.SaveName == LoadGameName)
                     {
-                        gamefound = g;
+                        gameFound = g;
                         _continue = true;
                     }
                 }
@@ -74,15 +74,15 @@ namespace GOL
                 {
                     foreach (GameRound gr in c.Rounds)
                     {
-                        if (gr.SaveID == gamefound)
+                        if (gr.SaveID == gameFound)
                         {
-                            loadedgamefirstround = gr.PlayingField;
-                            gridsize = gr.GridSize;
+                            loadedGameFirstRound = gr.PlayingField;
+                            gridSize = gr.GridSize;
                         }
                     }
                 }
             }
-            return loadedgamefirstround;
+            return loadedGameFirstRound;
         }
     }
 }

@@ -8,12 +8,12 @@ namespace GOL
 {
     public partial class Form1 : Form
     {
-        Point location;
+        //Point location;
         Settings s;
         MoveLogic ml;
-        SaveGame saveorload = new SaveGame();
+        SaveGame saveOrLoad = new SaveGame();
         GUI_Options GUI = new GUI_Options();
-        Button[,] gamebuttongridarray;
+        Button[,] gameButtonGridArray;
         List <Game> ListOfSavedGames = new List<Game>();
 
         public Form1()
@@ -23,7 +23,7 @@ namespace GOL
             //MouseClick += mouseClick;
 
             s = new Settings(GameGrid_Panel);
-            gamebuttongridarray = new Button[s.GridSize, s.GridSize];
+            gameButtonGridArray = new Button[s.GridSize, s.GridSize];
             ml = new MoveLogic(s);
             CreateGrid();
             LightButtonTest(); // Test
@@ -53,13 +53,13 @@ namespace GOL
             {
                 for (int x = 0; x < s.GridSize;)
                 {
-                    Point templocation = new Point(xpos, ypos);
+                    Point tempLocation = new Point(xpos, ypos);
 
                     Button b = new Button
                     {
                         Parent = GameGrid_Panel,
                         Size = new Size(s.ButtonSize, s.ButtonSize),
-                        Location = templocation,
+                        Location = tempLocation,
                         FlatStyle = FlatStyle.Flat,
                     };
                     b.FlatAppearance.BorderSize = 1;
@@ -67,8 +67,8 @@ namespace GOL
                     b.Click += Grid_btn_Click;
 
             
-                    s.PastGameTurn[x, y] = 0;
-                    gamebuttongridarray[x, y] = b;
+                    s.PastGameTurnArray[x, y] = 0;
+                    gameButtonGridArray[x, y] = b;
 
                     xpos += s.ButtonSize;
                     x++;
@@ -90,7 +90,7 @@ namespace GOL
             {
                 for (int y = 0; y < s.GridSize; ++y)
                 {
-                    if (gamebuttongridarray[x, y] == btn) // (or maybe 'object.ReferenceEqual')
+                    if (gameButtonGridArray[x, y] == btn) // (or maybe 'object.ReferenceEqual')
                     {
                         found_x = x;
                         found_y = y;
@@ -105,14 +105,14 @@ namespace GOL
             if (btn.BackColor != s.AliveCellColor)
             {
                 btn.BackColor = s.AliveCellColor;
-                s.NewGameTurn[found_x, found_y] = 1;
-                s.PastGameTurn[found_x, found_y] = 1;
+                s.NewGameTurnArray[found_x, found_y] = 1;
+                s.PastGameTurnArray[found_x, found_y] = 1;
             }
             else
             {
                 btn.BackColor = s.DeadCellColor;
-                s.NewGameTurn[found_x, found_y] = 0;
-                s.PastGameTurn[found_x, found_y] = 0;
+                s.NewGameTurnArray[found_x, found_y] = 0;
+                s.PastGameTurnArray[found_x, found_y] = 0;
             }
             UpdateGrid();
         }
@@ -120,7 +120,7 @@ namespace GOL
         private void PlayRound()
         {
             ml.PlayRound(s);
-            s.PastGameTurn = (int[,])s.NewGameTurn.Clone();
+            s.PastGameTurnArray = (int[,])s.NewGameTurnArray.Clone();
             UpdateGrid();
         }
 
@@ -130,12 +130,12 @@ namespace GOL
             {
                 for (int x = 0; x < s.GridSize;)
                 {
-                    if (s.NewGameTurn[x, y] == 1)
+                    if (s.NewGameTurnArray[x, y] == 1)
                     {
-                        gamebuttongridarray[x, y].BackColor = s.AliveCellColor;
+                        gameButtonGridArray[x, y].BackColor = s.AliveCellColor;
                     }
                     else
-                        gamebuttongridarray[x, y].BackColor = s.DeadCellColor;
+                        gameButtonGridArray[x, y].BackColor = s.DeadCellColor;
 
                     x++;
                 }
@@ -145,17 +145,17 @@ namespace GOL
 
         private void SaveGame(string SaveName)
         {
-            saveorload.DoSaveGame(SaveName);
+            saveOrLoad.DoSaveGame(SaveName);
         }
         
         private void SaveRound()
         {
-            string currentround = "";
-            foreach( var position in s.PastGameTurn)
+            string currentRound = "";
+            foreach( var position in s.PastGameTurnArray)
             {
-                currentround += position + ",";
+                currentRound += position + ",";
             }
-            saveorload.DoSaveRounds(currentround, s.GridSize);
+            saveOrLoad.DoSaveRounds(currentRound, s.GridSize);
         }
 
 
@@ -163,9 +163,9 @@ namespace GOL
         /// <summary>
         /// Takes the loaded string and makes it into the GameArrays
         /// </summary>
-        private void MakeLoadedRoundToAnArray(string gameround)
+        private void MakeLoadedRoundToAnArray(string gameRound)
         {
-            string[] temparr = gameround.Split(',');
+            string[] temparr = gameRound.Split(',');
             int n = 0;
             for (int y = 0; y < s.GridSize; y++)
             {
@@ -173,8 +173,8 @@ namespace GOL
                 {
                     int i = Int32.Parse(temparr[n]);
                     
-                    s.NewGameTurn[x, y] = i;
-                    s.PastGameTurn[x, y] = i;
+                    s.NewGameTurnArray[x, y] = i;
+                    s.PastGameTurnArray[x, y] = i;
                     n++;
                 }
             }
@@ -187,43 +187,43 @@ namespace GOL
 
         private void LightButtonTest() // Tänk att origo är i övre vänstra hörnet [x,y], (y går nedåt fast positiv) 
         {
-            s.PastGameTurn[0, 0] = 1;
-            s.PastGameTurn[0, 1] = 1;
-            s.PastGameTurn[1, 1] = 1;
-            s.PastGameTurn[0, 2] = 1;
-            s.PastGameTurn[1, 2] = 1;
+            s.PastGameTurnArray[0, 0] = 1;
+            s.PastGameTurnArray[0, 1] = 1;
+            s.PastGameTurnArray[1, 1] = 1;
+            s.PastGameTurnArray[0, 2] = 1;
+            s.PastGameTurnArray[1, 2] = 1;
 
            // s.PastGameTurn[] = 1;
 
 
-            s.NewGameTurn[0, 0] = 1;
-            s.NewGameTurn[0, 1] = 1;
-            s.NewGameTurn[1, 1] = 1;
-            s.NewGameTurn[0, 2] = 1;
-            s.NewGameTurn[1, 2] = 1;
+            s.NewGameTurnArray[0, 0] = 1;
+            s.NewGameTurnArray[0, 1] = 1;
+            s.NewGameTurnArray[1, 1] = 1;
+            s.NewGameTurnArray[0, 2] = 1;
+            s.NewGameTurnArray[1, 2] = 1;
 
             // Test
 
             //using (var context = new DBContext())
             //{
-            //    var newsave = new Game();
-            //    newsave.SaveName = "BestGame";
-            //    newsave.SaveDate = System.DateTime.Now;
+            //    var newSave = new Game();
+            //    newSave.SaveName = "BestGame";
+            //    newSave.SaveDate = System.DateTime.Now;
 
-            //    var newround = new GameRound();
+            //    var newRound = new GameRound();
 
-            //    string currentroundstring = "";
-            //    foreach (var position in s.PastGameTurn)
+            //    string currentRoundString = "";
+            //    foreach (var position in s.PastGameTurnArray)
             //    {
-            //        currentroundstring = currentroundstring + "," + position;
+            //        currentRoundString = currentRoundString + "," + position;
             //    }
-            //    newround.GridSize = s.GridSize;
-            //    newround.PlayingField = currentroundstring;
-            //    newround.Round = 4;
+            //    newRound.GridSize = s.GridSize;
+            //    newRound.PlayingField = currentRoundString;
+            //    newRound.Round = 4;
 
-            //    newround.SaveID = newsave;
-            //    context.Games.Add(newsave);
-            //    context.Rounds.Add(newround);
+            //    newRound.SaveID = newSave;
+            //    context.Games.Add(newSave);
+            //    context.Rounds.Add(newRound);
             //    context.SaveChanges();
             //}
 
@@ -265,12 +265,12 @@ namespace GOL
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            string gamename = lstBxSavedGames.SelectedItem.ToString();
+            string gameName = lstBxSavedGames.SelectedItem.ToString();
             //send the selected gamename or game 
             // FIX THIS
-            string loadedgameround = saveorload.GetLoadGamePlayingfield(gamename);
-            s.GridSize = saveorload.GetSavedGridSize();
-            MakeLoadedRoundToAnArray(loadedgameround);
+            string loadedGameRound = saveOrLoad.GetLoadGamePlayingfield(gameName);
+            s.GridSize = saveOrLoad.GetSavedGridSize();
+            MakeLoadedRoundToAnArray(loadedGameRound);
             //int LoadIndexNr = 0;
             //if (lstBxSavedGames.SelectedItem != null)
             //    LoadIndexNr = lstBxSavedGames.SelectedIndex - 1;

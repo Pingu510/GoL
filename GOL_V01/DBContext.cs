@@ -9,7 +9,7 @@ namespace GOL
         public virtual DbSet<Game> Games { get; set; }         
         
         public DBContext()
-            : base("name=DefaultConnection")
+            : base("DefaultConnection")
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DBContext, Migrations.Configuration>("DefaultConnection"));
         }

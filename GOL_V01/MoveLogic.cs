@@ -13,12 +13,12 @@ namespace GOL
     class MoveLogic // Move to game or Cell?
     {        
         Settings s;
-        private int _gridsize { get; set; }
+        private int _gridSize { get; set; }
 
         public MoveLogic(Settings settings)
         {
             s = settings;
-            _gridsize = s.GridSize;
+            _gridSize = s.GridSize;
         }
 
 
@@ -29,17 +29,17 @@ namespace GOL
         public void PlayRound(Settings s)
         {
             bool cellstatealive;
-            for (int y = 0; y < _gridsize; y++)
+            for (int y = 0; y < _gridSize; y++)
             {
-                for (int x = 0; x < _gridsize; x++)
+                for (int x = 0; x < _gridSize; x++)
                 {
-                    int neighboursalive = CheckCellNeighbourhood(s.PastGameTurn, x, y);
-                    cellstatealive = DoRulesMath(neighboursalive, CheckCellState(s.PastGameTurn[x, y]));
+                    int neighboursalive = CheckCellNeighbourhood(s.PastGameTurnArray, x, y);
+                    cellstatealive = DoRulesMath(neighboursalive, CheckCellState(s.PastGameTurnArray[x, y]));
 
                     if (cellstatealive == true)
-                        s.NewGameTurn[x, y] = 1;
+                        s.NewGameTurnArray[x, y] = 1;
                     else
-                        s.NewGameTurn[x, y] = 0;
+                        s.NewGameTurnArray[x, y] = 0;
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace GOL
         /// </summary>
         private int CheckCellNeighbourhood(int[,] IntArray, int PosX, int PosY)
         {
-            int boundary = _gridsize -1;
+            int boundary = _gridSize -1;
             int closneighboursPosX = PosX - 1;
             int closneighboursPosY = PosY - 1;
             int aliveneighbours = 0;
