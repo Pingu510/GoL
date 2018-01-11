@@ -11,60 +11,37 @@ namespace GOL
         //två funktioner, en för att spara spel och en för att spara varje runda.
         Game _currentgame;
         int gridsize;
-        Settings s;
+        int increaseround;
 
         public void DoSaveGame(string SaveName)//spara spel
         {
+            increaseround = 0;
             using (var context = new DBContext())
             {
                 var newsave = new Game();
-                newsave.SaveName = "testgame"; //test för att se om det funkar..
-                newsave.SaveDate = System.DateTime.Now;
-                
-                _currentgame = newsave; // får se om detta funkar
+                newsave.SaveName = SaveName; 
+                newsave.SaveDate = DateTime.Now;                
+                _currentgame = newsave;
                 context.Games.Add(newsave);
                 context.SaveChanges();
             }         
         }
 
         public void DoSaveRounds(string CurrentGameRound, int GridSize)//save rounds
-        {
-         
+        {         
             using (var context = new DBContext())
             {
                 var newround = new GameRound();
-                newround.SaveID = _currentgame; // Funkar detta?
-                newround.GridSize = s.GridSize;
-                //string currentroundstring = "";//
-                //  foreach (var position in s.PastGameTurn)
-                //   {
-                //       currentroundstring = currentroundstring + "," + position;
-                //   }
-               // newround.PlayingField = Currentroundstring; 
-                newround.Round = 8; // Måste ökas på ngt vis
+                newround.SaveID = _currentgame;
+                newround.GridSize = GridSize;
+                newround.Round = increaseround++;
+                newround.PlayingField = CurrentGameRound;
 
                 context.Rounds.Add(newround);
                 context.SaveChanges();
             }
         }
-
-//              using (var context = new DBContext())
-//            {
-//                var newsave = new Game();
-//                newsave.SaveName = "BestGame";
-//                newsave.SaveDate = System.DateTime.Now;
-
-//                var newround = new GameRound();
-//                 newround.GridSize = s.GridSize;
-//                newround.PlayingField = currentroundstring;
-//                newround.Round = 4;
-
-//                newround.SaveID = newsave;
-//                context.Games.Add(newsave);
-//                context.Rounds.Add(newround);
-//                context.SaveChanges();
-//            }
-
+        
         public void DeleteGame(Game g)
         {
             //Delete all rounds connected to this g

@@ -145,10 +145,10 @@ namespace GOL
 
         private void SaveGame(string SaveName)
         {
-            saveorload.DoSaveGame("X");
+            saveorload.DoSaveGame(SaveName);
         }
         
-        private void SaveRound(Game game)
+        private void SaveRound()
         {
             string currentround = "";
             foreach( var position in s.PastGameTurn)
@@ -255,12 +255,12 @@ namespace GOL
             //GUI.StartGame();
         }
 
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            GUI.StopGame();
-            //lstBxSavedGames.Items.Add(g);
-            //ListOfSavedGames.Add(g);
-        }
+        //private void btnStop_Click(object sender, EventArgs e)
+        //{
+        //    GUI.StopGame();
+        //    lstBxSavedGames.Items.Add(g);
+        //    ListOfSavedGames.Add(g);
+        //}
 
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -307,6 +307,12 @@ namespace GOL
         private void btnPause_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnStopSave_Click(object sender, EventArgs e)
+        {
+            SaveGame("Testus");
+            SaveRound();
         }
     }
 }

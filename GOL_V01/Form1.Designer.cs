@@ -36,7 +36,7 @@
             this.lblNameOfGame = new System.Windows.Forms.Label();
             this.txbNameOfTheGame = new System.Windows.Forms.TextBox();
             this.btnStart = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
+            this.btnStopSave = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -119,15 +119,15 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // btnStop
+            // btnStopSave
             // 
-            this.btnStop.Location = new System.Drawing.Point(60, 385);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(107, 23);
-            this.btnStop.TabIndex = 6;
-            this.btnStop.Text = "STOPP/SAVE";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnStopSave.Location = new System.Drawing.Point(60, 385);
+            this.btnStopSave.Name = "btnStopSave";
+            this.btnStopSave.Size = new System.Drawing.Size(107, 23);
+            this.btnStopSave.TabIndex = 6;
+            this.btnStopSave.Text = "STOPP/SAVE";
+            this.btnStopSave.UseVisualStyleBackColor = true;
+            this.btnStopSave.Click += new System.EventHandler(this.btnStopSave_Click);
             // 
             // btnExit
             // 
@@ -156,7 +156,7 @@
             this.ClientSize = new System.Drawing.Size(1020, 618);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.btnStopSave);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.GameGrid_Panel);
@@ -176,7 +176,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txbNameOfTheGame;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnStopSave;
         private System.Windows.Forms.Label lblNameOfGame;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnDelete;
