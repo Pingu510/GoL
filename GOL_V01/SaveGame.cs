@@ -10,6 +10,7 @@ namespace GOL
     {
         //två funktioner, en för att spara spel och en för att spara varje runda.
         Game _currentgame;
+        int gridsize;
         Settings s;
 
         public void DoSaveGame(string SaveName)//spara spel
@@ -70,18 +71,37 @@ namespace GOL
             //cascade delete?
         }
 
+        public int GetSavedGridSize()
+        {
+            return gridsize;
+        }
+
         public string GetLoadGamePlayingfield(string LoadGameName)
         {
             string loadedgamefirstround = "";
             using (var c = new DBContext())
             {
-                Game gamefound = c.Games.Find(LoadGameName); // works?
-                var savefound = c.Rounds;
-                foreach (var item in savefound)
+                Game gamefound = null;
+                bool _continue = false;
+
+                foreach (Game g in c.Games)
                 {
-                    if (item.SaveID == gamefound)
+                    if(g.SaveName == LoadGameName)
                     {
-                        loadedgamefirstround = item.PlayingField;
+                        gamefound = g;
+                        _continue = true;
+                    }
+                }
+
+                if (_continue)
+                {
+                    foreach (GameRound gr in c.Rounds)
+                    {
+                        if (gr.SaveID == gamefound)
+                        {
+                            loadedgamefirstround = gr.PlayingField;
+                            gridsize = gr.GridSize;
+                        }
                     }
                 }
             }

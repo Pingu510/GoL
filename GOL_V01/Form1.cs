@@ -163,14 +163,13 @@ namespace GOL
         /// <summary>
         /// Takes the loaded string and makes it into the GameArrays
         /// </summary>
-        private void MakeLoadedRoundToAnArray(string gameround, int gridsize)
+        private void MakeLoadedRoundToAnArray(string gameround)
         {
-            s.GridSize = gridsize;
             string[] temparr = gameround.Split(',');
             int n = 0;
-            for (int y = 0; y < gridsize; y++)
+            for (int y = 0; y < s.GridSize; y++)
             {
-                for (int x = 0; x < gridsize; x++)
+                for (int x = 0; x < s.GridSize; x++)
                 {
                     int i = Int32.Parse(temparr[n]);
                     
@@ -266,11 +265,12 @@ namespace GOL
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            string gamename = "";
+            string gamename = lstBxSavedGames.SelectedItem.ToString();
             //send the selected gamename or game 
             // FIX THIS
             string loadedgameround = saveorload.GetLoadGamePlayingfield(gamename);
-            MakeLoadedRoundToAnArray(loadedgameround, s.GridSize);
+            s.GridSize = saveorload.GetSavedGridSize();
+            MakeLoadedRoundToAnArray(loadedgameround);
             //int LoadIndexNr = 0;
             //if (lstBxSavedGames.SelectedItem != null)
             //    LoadIndexNr = lstBxSavedGames.SelectedIndex - 1;

@@ -75,7 +75,7 @@ namespace GOL
             _deadColor = Color.Transparent;
             GamePanel.Height = GamePanel.Width; // ensures a square panel
             gamesize = GamePanel.Width;
-            gridsize = 40; // Number of Rows/Columns
+            gridsize = 3; // Number of Rows/Columns
 
             UpdateSettings();
         }
