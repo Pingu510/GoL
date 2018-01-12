@@ -174,7 +174,6 @@
         private System.Windows.Forms.Panel GameGrid_Panel;
         private System.Windows.Forms.ListBox lstBxSavedGames;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox txbNameOfTheGame;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnStopSave;
         private System.Windows.Forms.Label lblNameOfGame;
@@ -182,6 +181,7 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnPause;
+        public System.Windows.Forms.TextBox txbNameOfTheGame;
     }
 }
 
