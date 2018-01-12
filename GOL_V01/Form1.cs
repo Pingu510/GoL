@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace GOL
@@ -16,10 +18,11 @@ namespace GOL
         Button[,] gameButtonGridArray;
         List <Game> ListOfSavedGames = new List<Game>();
 
+        public static Form1 _Form1;
         public Form1()
         {
             InitializeComponent();
-
+            _Form1 = this;
             //MouseClick += mouseClick;
 
             s = new Settings(GameGrid_Panel);
@@ -41,9 +44,36 @@ namespace GOL
         //    }
         //}
 
+        //public void update(string saveTx)
+        //{
+        //    txbNameOfTheGame.Text = saveTx;
+        //}
+
+        //private void Form1_Load(object sender, EventArgs e)
+        //{
+        //    SaveGame sample = new SaveGame();
+        //}
+
+
+
+        //public string txBxSaveText
+        //{
+        //    get { return txbNameOfTheGame.Text; }
+        //    set { txbNameOfTheGame.Text = value; }
+        //}
+
+       // public string txBxSaveGame { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+
+
+
+
+
+
         /// <summary>
         /// Creates the Grid with new buttons
         /// </summary>
+        /// 
         private void CreateGrid()
         {
             int xpos = 0;
@@ -100,7 +130,7 @@ namespace GOL
             }
 
             // Remove this after testing
-            lstBxSavedGames.Items.Add(found_x + "   ---  " + found_y);
+            //lstBxSavedGames.Items.Add(found_x + "   ---  " + found_y);
 
             if (btn.BackColor != s.AliveCellColor)
             {
@@ -146,6 +176,7 @@ namespace GOL
         private void SaveGame(string SaveName)
         {
             saveOrLoad.DoSaveGame(SaveName);
+            UpdateLoadListBox();
         }
         
         private void SaveRound()
@@ -281,20 +312,47 @@ namespace GOL
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            //var KeyVal = lstBxSavedGames.SelectedIndex;
+            //int indexNr;
+            Game game;
+            using (var deleteDb = new DBContext())
+                {
+                //game = deleteDb.Games.FirstOrDefault();
+               // deleteDb.Games.Attach(game);
+                //game = deleteDb.Games.Find(KeyVal);
+                //deleteDb.Games.Remove(game);
+                deleteDb.SaveChanges();
 
-            int indexNr;
+            }
 
-            if (lstBxSavedGames.SelectedIndex == -1)
-            {
-                indexNr = lstBxSavedGames.SelectedIndex - 1;
-            }
-            else
-            {
-                indexNr = lstBxSavedGames.SelectedIndex;
-               
-                ListOfSavedGames.RemoveAt(indexNr);
-               
-            }
+            //using (var deleteDb = new DBContext())
+            //{
+            //    deleteDb.Entry(game).State = EntityState.Deleted;
+            //    deleteDb.SaveChanges();
+            //}
+
+
+            //using (var context = new DBContext())
+            //{
+            //    var saves = context.Games;
+
+            //    foreach (var save in saves)
+            //    {
+            //        lstBxSavedGames.Items.Add(save.SaveName);
+            //    }
+            //}
+
+            //if (lstBxSavedGames.SelectedIndex == -1)
+            //    {
+            //        indexNr = lstBxSavedGames.SelectedIndex - 1;
+            //    }
+            //    else
+            //    {
+            //        indexNr = lstBxSavedGames.SelectedIndex;
+
+            //        ListOfSavedGames.RemoveAt(indexNr);
+
+            //    }
             
             //GUI.DeleteGame();
         }
@@ -311,7 +369,8 @@ namespace GOL
 
         private void btnStopSave_Click(object sender, EventArgs e)
         {
-            SaveGame("Testus");
+            string SaveName = txbNameOfTheGame.Text;
+            SaveGame(SaveName);
             SaveRound();
         }
     }
