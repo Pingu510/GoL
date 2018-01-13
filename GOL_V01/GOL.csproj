@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cell.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,7 +62,6 @@
     </Compile>
     <Compile Include="Game.cs" />
     <Compile Include="GameRound.cs" />
-    <Compile Include="GUI_Options.cs" />
     <Compile Include="DBContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MoveLogic.cs" />
