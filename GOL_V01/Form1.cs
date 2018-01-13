@@ -214,7 +214,7 @@ namespace GOL
         {            
             if (lstBxSavedGames.SelectedItem != null)
             {
-                DeleteGame(lstBxSavedGames.SelectedIndex.ToString());                
+                DeleteGame(lstBxSavedGames.SelectedItem.ToString());                
             }
             UpdateLoadListBox();
         }
