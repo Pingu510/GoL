@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace GOL
 {
-    public class SaveGame
+    public class ManageDB
     {
-        //två funktioner, en för att spara spel och en för att spara varje runda.
-        Game _currentGame;
+        
+        int _currentGame;
+        
         int gridSize;
         int increaseRound;
 
@@ -20,10 +21,10 @@ namespace GOL
             {
                 var newSave = new Game();
                 newSave.SaveName = SaveName; 
-                newSave.SaveDate = DateTime.Now;                
-                _currentGame = newSave;
+                newSave.SaveDate = DateTime.Now;
                 context.Games.Add(newSave);
                 context.SaveChanges();
+                _currentGame = newSave.GameID;
             }         
         }
 
@@ -42,8 +43,9 @@ namespace GOL
             }
         }
         
-        public void DeleteGame(Game g)
+        public void DeleteGame(string GameToDelete)
         {
+            //Game i detta fall kommer kanske bara vara en variabel och inte ett Game objekt
             //Delete all rounds connected to this g
             //cascade delete?
         }
@@ -53,36 +55,52 @@ namespace GOL
             return gridSize;
         }
 
-        public string GetLoadGamePlayingfield(string LoadGameName)
+        public void RenameGame(string OldName, string NewName)
         {
-            string loadedGameFirstRound = "";
+            using (var c = new DBContext())
+            {
+                Game g = GetGame(OldName);
+                var o = c.Games.Find(g.GameID);
+                o.SaveName = NewName;
+                c.SaveChanges();
+            }
+        }
+
+        public Game GetGame(string GameName)
+        {
             using (var c = new DBContext())
             {
                 Game gameFound = null;
-                bool _continue = false;
 
                 foreach (Game g in c.Games)
                 {
-                    if(g.SaveName == LoadGameName)
+                    if (g.SaveName == GameName)
                     {
                         gameFound = g;
-                        _continue = true;
+                        _currentGame = g.GameID; // this ok?
+                        break;
                     }
                 }
-
-                if (_continue)
-                {
-                    foreach (GameRound gr in c.Rounds)
-                    {
-                        if (gr.SaveID == gameFound)
-                        {
-                            loadedGameFirstRound = gr.PlayingField;
-                            gridSize = gr.GridSize;
-                        }
-                    }
-                }
+                return gameFound;                
             }
-            return loadedGameFirstRound;
+        }
+
+        public string GetPlayingfield(Game GameToLoad)
+        {
+            string loadedFirstRound = "";
+            using (var c = new DBContext())
+            {
+                foreach (GameRound gr in c.Rounds)
+                {
+                    if (gr.SaveID == GameToLoad.GameID)
+                    {
+                        loadedFirstRound = gr.PlayingField;
+                        gridSize = gr.GridSize;
+                        break;
+                    }
+                }
+                return loadedFirstRound;
+            }            
         }
     }
 }

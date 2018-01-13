@@ -13,7 +13,6 @@ namespace GOL
         public string PlayingField { get; set; }
         public int GridSize { get; set; }
 
-        //public int SaveID { get; set; }
-        public Game SaveID { get; set; }
+        public int SaveID { get; set; }
     }
 }

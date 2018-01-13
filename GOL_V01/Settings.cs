@@ -44,7 +44,7 @@ namespace GOL
             }
         }
 
-        // OBS! Ändrar man gridsize så ändras arayens storlek, vilket förmodigen krashar hela programmet
+        // OBS! Ändrar man gridsize så ändras arayens storlek, vilket krashar hela programmet, säkra det
         /// <summary>
         /// Sets amount of Columns/Rows
         /// </summary>
@@ -57,13 +57,19 @@ namespace GOL
             }
         }
 
+        public void ClearArray()
+        {
+            PastGameTurnArray = null;
+            UpdateSettings();
+        }
+
         /// <summary>
         /// Updates values depending on new sets
         /// </summary>
         private void UpdateSettings()
         {
             ButtonSize = gameSize / gridSize;
-            NewGameTurnArray = new int[gridSize, gridSize]; //Måste matcha det man laddar in
+            NewGameTurnArray = new int[gridSize, gridSize];
             if (PastGameTurnArray == null) // Om spelplanen(arrayen) är tom/null så skapas ny
                 PastGameTurnArray = new int[gridSize, gridSize];
         }

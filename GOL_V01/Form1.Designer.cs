@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.GameGrid_Panel = new System.Windows.Forms.Panel();
             this.lstBxSavedGames = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -39,6 +40,8 @@
             this.btnStopSave = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
+            this.PlayTimer = new System.Windows.Forms.Timer(this.components);
+            this.btnRandom = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,17 +114,17 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(60, 282);
+            this.btnStart.Location = new System.Drawing.Point(72, 335);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 5;
-            this.btnStart.Text = "START";
+            this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnStopSave
             // 
-            this.btnStopSave.Location = new System.Drawing.Point(60, 385);
+            this.btnStopSave.Location = new System.Drawing.Point(60, 429);
             this.btnStopSave.Name = "btnStopSave";
             this.btnStopSave.Size = new System.Drawing.Size(107, 23);
             this.btnStopSave.TabIndex = 6;
@@ -141,7 +144,7 @@
             // 
             // btnPause
             // 
-            this.btnPause.Location = new System.Drawing.Point(60, 325);
+            this.btnPause.Location = new System.Drawing.Point(72, 378);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(75, 23);
             this.btnPause.TabIndex = 9;
@@ -149,11 +152,27 @@
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
+            // PlayTimer
+            // 
+            this.PlayTimer.Interval = 500;
+            this.PlayTimer.Tick += new System.EventHandler(this.PlayTimer_Tick);
+            // 
+            // btnRandom
+            // 
+            this.btnRandom.Location = new System.Drawing.Point(72, 294);
+            this.btnRandom.Name = "btnRandom";
+            this.btnRandom.Size = new System.Drawing.Size(75, 23);
+            this.btnRandom.TabIndex = 11;
+            this.btnRandom.Text = "Randomize";
+            this.btnRandom.UseVisualStyleBackColor = true;
+            this.btnRandom.Click += new System.EventHandler(this.btnRandom_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1020, 618);
+            this.ClientSize = new System.Drawing.Size(857, 618);
+            this.Controls.Add(this.btnRandom);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnStopSave);
@@ -182,6 +201,8 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnPause;
+        private System.Windows.Forms.Timer PlayTimer;
+        private System.Windows.Forms.Button btnRandom;
     }
 }
 

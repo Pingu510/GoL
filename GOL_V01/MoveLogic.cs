@@ -20,11 +20,7 @@ namespace GOL
             s = settings;
             _gridSize = s.GridSize;
         }
-
-
-
         
-
 
         public void PlayRound(Settings s)
         {
@@ -44,10 +40,7 @@ namespace GOL
             }
         }
 
-
-
         
-
         /// <summary>
         /// Checks if the surrounding cells are alive
         /// </summary>
@@ -116,7 +109,7 @@ namespace GOL
         /// <summary>
         /// Sets the cell to 1 if bool is true
         /// </summary>
-        private void SetCellAliveState(bool alive, int cell)
+        private void SetCellState(bool alive, int cell)
         {
             if (alive)
                 cell = 1;
