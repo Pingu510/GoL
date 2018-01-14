@@ -45,6 +45,7 @@ namespace GOL
         
         public void DeleteGame(string GameToDelete)
         {
+            
             //Game i detta fall kommer kanske bara vara en variabel och inte ett Game objekt
             //Delete all rounds connected to this g
             //cascade delete?

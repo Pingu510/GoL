@@ -11,14 +11,14 @@ namespace GOL
         MoveLogic ml;
         ManageDB manageDB = new ManageDB();
         Button[,] gameButtonGridArray;
-        List <Game> ListOfSavedGames = new List<Game>();
+        List<Game> ListOfSavedGames = new List<Game>();
         Random random = new Random(15);
         bool savegame = false;
 
         public Form1()
         {
             InitializeComponent();
-            
+
             s = new Settings(GameGrid_Panel);
             gameButtonGridArray = new Button[s.GridSize, s.GridSize];
             ml = new MoveLogic(s);
@@ -26,10 +26,10 @@ namespace GOL
             UpdateGrid();
             UpdateLoadListBox();
         }
-        
+
         private void PlayTimer_Tick(object sender, EventArgs e)
         {
-            if(savegame)
+            if (savegame)
                 SaveRound();
             PlayRound();
         }
@@ -41,7 +41,7 @@ namespace GOL
             {
                 PlayTimer.Stop();
             }
-            s.PastGameTurnArray = (int[,])s.NewGameTurnArray.Clone();            
+            s.PastGameTurnArray = (int[,])s.NewGameTurnArray.Clone();
             UpdateGrid();
         }
 
@@ -61,7 +61,7 @@ namespace GOL
 
                     Button button = CreateButton(tempLocation);
                     button.Click += Grid_btn_Click;
-                                
+
                     s.PastGameTurnArray[x, y] = 0;
                     gameButtonGridArray[x, y] = button;
 
@@ -88,7 +88,7 @@ namespace GOL
             return b;
         }
 
-                
+
         private void UpdateGrid()
         {
             for (int y = 0; y < s.GridSize;)
@@ -110,6 +110,12 @@ namespace GOL
 
         private void CreateRandomGrid()
         {
+            ml.PlayRound(s);
+            if (s.PastGameTurnArray == s.NewGameTurnArray) random.Next(DateTime.Now.Millisecond); // If the cells doesnt change anymore
+            {
+                PlayTimer.Stop();
+            }
+            s.PastGameTurnArray = (int[,])s.NewGameTurnArray.Clone();
             // Update s.PastGameTurnArray values here using random
 
 
@@ -120,11 +126,11 @@ namespace GOL
         {
             manageDB.DoSaveGame(GameName);
         }
-        
+
         private void SaveRound()
         {
             string currentRound = "";
-            foreach( var position in s.PastGameTurnArray)
+            foreach (var position in s.PastGameTurnArray)
             {
                 currentRound += position + ",";
             }
@@ -132,7 +138,7 @@ namespace GOL
         }
 
         private void DeleteGame(string GameName)
-        {            
+        {
             manageDB.DeleteGame(GameName);
         }
 
@@ -157,7 +163,7 @@ namespace GOL
                 for (int x = 0; x < s.GridSize; x++)
                 {
                     int i = Int32.Parse(temparr[n]);
-                    
+
                     //s.NewGameTurnArray[x, y] = i;
                     s.PastGameTurnArray[x, y] = i;
                     n++;
@@ -176,10 +182,10 @@ namespace GOL
                 foreach (var savedgame in saves)
                 {
                     lstBxSavedGames.Items.Add(savedgame.SaveName);
-                }                
+                }
             }
         }
-        
+
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -190,7 +196,7 @@ namespace GOL
             PlayTimer.Start();
         }
 
-        
+
         private void btnLoad_Click(object sender, EventArgs e)
         {
             if (lstBxSavedGames.SelectedItem != null)
@@ -206,15 +212,29 @@ namespace GOL
                     btnStart.Enabled = false;
                     savegame = false;
                     PlayTimer.Start();
-                }                
+                }
+            }
+        }
+
+        public void deleteGame()
+        {
+            using (var context = new DBContext())
+            {
+                Game g = manageDB.GetGame(lstBxSavedGames.SelectedItem.ToString());
+                context.Games.Attach(g);
+                context.Games.Remove(g);
+                context.SaveChanges();
+
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
-        {            
+        {
+
             if (lstBxSavedGames.SelectedItem != null)
             {
-                DeleteGame(lstBxSavedGames.SelectedItem.ToString());                
+                deleteGame();
+                //DeleteGame(lstBxSavedGames.SelectedItem.ToString());
             }
             UpdateLoadListBox();
         }
@@ -233,7 +253,7 @@ namespace GOL
                 PlayTimer.Start();
             }
         }
-        
+
         private void btnStopSave_Click(object sender, EventArgs e)
         {
             PlayTimer.Stop();
@@ -242,12 +262,12 @@ namespace GOL
                 DeleteGame("DefaultGameName");
             else
             {
-                manageDB.RenameGame("DefaultGameName", txbNameOfTheGame.Text);       
+                manageDB.RenameGame("DefaultGameName", txbNameOfTheGame.Text);
                 txbNameOfTheGame.Text = "";
             }
             ResetGame();
         }
-        
+
 
         private void btnExit_Click(object sender, EventArgs e)
         {
@@ -272,7 +292,7 @@ namespace GOL
                     }
                 }
             }
-            
+
             if (btn.BackColor != s.AliveCellColor)
             {
                 btn.BackColor = s.AliveCellColor;
