@@ -31,16 +31,17 @@ namespace GOL
         {
             if (savegame)
                 SaveRound();
+            if (s.PastGameTurnArray == s.NewGameTurnArray) // If the cells doesnt change anymore
+            {
+                PlayTimer.Stop();
+                btnPause.Enabled = false;
+            }
             PlayRound();
         }
 
         private void PlayRound()
         {
-            ml.PlayRound(s);
-            if (s.PastGameTurnArray == s.NewGameTurnArray) // If the cells doesnt change anymore
-            {
-                PlayTimer.Stop();
-            }
+            ml.PlayRound(s);            
             s.PastGameTurnArray = (int[,])s.NewGameTurnArray.Clone();
             UpdateGrid();
         }
@@ -110,13 +111,11 @@ namespace GOL
 
         private void CreateRandomGrid()
         {
-            ml.PlayRound(s);
-            if (s.PastGameTurnArray == s.NewGameTurnArray) random.Next(DateTime.Now.Millisecond); // If the cells doesnt change anymore
+            for (int i = 0; i < s.PastGameTurnArray.Length; i++)
             {
-                PlayTimer.Stop();
+                // Update s.PastGameTurnArray values here using random
+
             }
-            s.PastGameTurnArray = (int[,])s.NewGameTurnArray.Clone();
-            // Update s.PastGameTurnArray values here using random
 
 
             UpdateGrid();
@@ -136,11 +135,7 @@ namespace GOL
             }
             manageDB.DoSaveRounds(currentRound, s.GridSize);
         }
-
-        private void DeleteGame(string GameName)
-        {
-            manageDB.DeleteGame(GameName);
-        }
+        
 
         private void ResetGame()
         {
@@ -192,6 +187,7 @@ namespace GOL
             //Run randomiser if not using loaded
             SaveGame("DefaultGameName");
             savegame = true;
+            btnPause.Enabled = true;
             btnStart.Enabled = false;
             PlayTimer.Start();
         }
@@ -216,11 +212,11 @@ namespace GOL
             }
         }
 
-        public void deleteGame()
+        public void DeleteGame(string GameName)
         {
             using (var context = new DBContext())
             {
-                Game g = manageDB.GetGame(lstBxSavedGames.SelectedItem.ToString());
+                Game g = manageDB.GetGame(GameName);
                 context.Games.Attach(g);
                 context.Games.Remove(g);
                 context.SaveChanges();
@@ -233,8 +229,7 @@ namespace GOL
 
             if (lstBxSavedGames.SelectedItem != null)
             {
-                deleteGame();
-                //DeleteGame(lstBxSavedGames.SelectedItem.ToString());
+                DeleteGame(lstBxSavedGames.SelectedItem.ToString());                
             }
             UpdateLoadListBox();
         }
@@ -265,6 +260,7 @@ namespace GOL
                 manageDB.RenameGame("DefaultGameName", txbNameOfTheGame.Text);
                 txbNameOfTheGame.Text = "";
             }
+            btnPause.Enabled = false;
             ResetGame();
         }
 

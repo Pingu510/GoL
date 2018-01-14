@@ -61,8 +61,8 @@ namespace GOL
             using (var c = new DBContext())
             {
                 Game g = GetGame(OldName);
-                var o = c.Games.Find(g.GameID);
-                o.SaveName = NewName;
+                c.Games.Attach(g);
+                g.SaveName = NewName;
                 c.SaveChanges();
             }
         }
