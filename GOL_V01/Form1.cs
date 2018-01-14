@@ -114,9 +114,15 @@ namespace GOL
             for (int i = 0; i < s.PastGameTurnArray.Length; i++)
             {
                 // Update s.PastGameTurnArray values here using random
+                for (int i = 0; i < s.PastGameTurnArray.Length;)
+                {
+                    for (int i = 0; i < length; i++)
+                    {
 
+                    }
+                    s.PastGameTurnArray[i, i] = random.Next();
+                }
             }
-
 
             UpdateGrid();
         }
