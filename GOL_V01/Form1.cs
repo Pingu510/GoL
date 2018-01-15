@@ -18,7 +18,6 @@ namespace GOL
         public Form1()
         {
             InitializeComponent();
-
             s = new Settings(GameGrid_Panel);
             gameButtonGridArray = new Button[s.GridSize, s.GridSize];
             ml = new MoveLogic(s);

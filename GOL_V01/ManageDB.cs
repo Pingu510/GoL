@@ -13,7 +13,10 @@ namespace GOL
         int gridSize;
         int increaseRound;
 
-        public void DoSaveGame(string SaveName)//spara spel
+        /// <summary>
+        /// Save games to database by name
+        /// </summary>
+        public void DoSaveGame(string SaveName)
         {
             increaseRound = 0;
             using (var context = new DBContext())
@@ -27,13 +30,15 @@ namespace GOL
             }         
         }
 
+        /// <summary>
+        /// Save every round/iteration of the game grid to DB as a string
+        /// </summary>
         public void DoSaveRounds(string CurrentGameRound, int GridSize)//save rounds
         {         
             using (var context = new DBContext())
             {
                 var newRound = new GameRound();
-                //newRound.SaveID = _currentGame.GameID;
-                
+                                
                 context.Games.Attach(_currentGame);
                 newRound.Game = _currentGame;
                 newRound.GridSize = GridSize;
@@ -45,6 +50,9 @@ namespace GOL
             }
         }
         
+        /// <summary>
+        /// Deletes a game from DB and it's game rounds
+        /// </summary>
         public void DeleteGame(string GameName)
         {
             using (var context = new DBContext())
@@ -59,11 +67,17 @@ namespace GOL
             }
         }
 
+        /// <summary>
+        /// Gets the set grid size from the settings class via the GameRounds class
+        /// </summary>
         public int GetSavedGridSize()
         {
             return gridSize;
         }
 
+        /// <summary>
+        /// Rename the deafult game name "DefaultGameName" at the time you save, to whatever is typed in the text box. 
+        /// </summary>
         public void RenameGame(string OldName, string NewName)
         {
             using (var c = new DBContext())
@@ -75,6 +89,9 @@ namespace GOL
             }
         }
 
+        /// <summary>
+        ///Gets the selected game from DB 
+        /// </summary>
         public Game GetGame(string GameName)
         {
             Game gameFound = null;
@@ -94,6 +111,9 @@ namespace GOL
             return gameFound;                
         }
 
+        /// <summary>
+        /// Get a saved game round from DB as a string
+        /// </summary>
         public string GetPlayingfield(string GameName)
         {
             string loadedFirstRound = "";
