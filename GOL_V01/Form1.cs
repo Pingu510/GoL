@@ -75,6 +75,11 @@ namespace GOL
             }
         }
 
+        /// <summary>
+        /// Skapar rutornas utseende.
+        /// </summary>
+        /// <param name="tmpLocation"></param>
+        /// <returns></returns>
         private Button CreateButton(Point tmpLocation)
         {
             Button b = new Button
@@ -89,7 +94,9 @@ namespace GOL
             return b;
         }
 
-
+        /// <summary>
+        /// Uppdaterar spelplanen.
+        /// </summary>
         private void UpdateGrid()
         {
             for (int y = 0; y < s.GridSize;)
@@ -109,6 +116,9 @@ namespace GOL
             }
         }
 
+        /// <summary>
+        /// Använder random för att slumpa fram nya tal i array
+        /// </summary>
         private void CreateRandomGrid()
         {
             for (int i = 0; i < s.GridSize;)
@@ -124,11 +134,18 @@ namespace GOL
             UpdateGrid();
         }
 
+        /// <summary>
+        /// Spara spel i databasen.
+        /// </summary>
+        /// <param name="GameName"></param>
         private void SaveGame(string GameName)
         {
             manageDB.DoSaveGame(GameName);
         }
 
+        /// <summary>
+        /// Spara rundor i databasen.
+        /// </summary>
         private void SaveRound()
         {
             string currentRound = "";
@@ -169,7 +186,9 @@ namespace GOL
             }
         }
 
-
+        /// <summary>
+        /// Uppdaterar listboxen med de sparade spelen
+        /// </summary>
         private void UpdateLoadListBox()
         {
             lstBxSavedGames.Items.Clear();
@@ -184,7 +203,11 @@ namespace GOL
             }
         }
 
-
+        /// <summary>
+        /// För att starta spelet
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStart_Click(object sender, EventArgs e)
         {
             //Run randomiser if not using loaded
@@ -195,7 +218,11 @@ namespace GOL
             PlayTimer.Start();
         }
 
-
+        /// <summary>
+        /// För att ladda ett redan sparat spel och spela upp det.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLoad_Click(object sender, EventArgs e)
         {
             if (lstBxSavedGames.SelectedItem != null)
@@ -214,11 +241,20 @@ namespace GOL
             }
         }
 
+        /// <summary>
+        /// Ta bort spel i db.
+        /// </summary>
+        /// <param name="GameName"></param>
         public void DeleteGame(string GameName)
         {
             manageDB.DeleteGame(GameName);
         }
 
+        /// <summary>
+        /// Knapp för att ta bort spel ur listboxen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
 
@@ -229,7 +265,11 @@ namespace GOL
             UpdateLoadListBox();
         }
 
-
+        /// <summary>
+        /// Knapp för att pausa spelet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPause_Click(object sender, EventArgs e)
         {
             if (btnPause.Text == "Pause")
@@ -244,6 +284,13 @@ namespace GOL
             }
         }
 
+        /// <summary>
+        /// Knapp för att stoppa/spara spelet.
+        /// Om man inte skrivit in namn så får den namnet DefaultGameName.
+        /// Annars tas den bort.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStopSave_Click(object sender, EventArgs e)
         {
             PlayTimer.Stop();
@@ -259,12 +306,21 @@ namespace GOL
             ResetGame();
         }
 
-
+        /// <summary>
+        /// Stänga applicationen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        /// <summary>
+        /// Man kan välja vilka rutor man vill på brädet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void Grid_btn_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -297,6 +353,11 @@ namespace GOL
             UpdateGrid();
         }
 
+        /// <summary>
+        /// Knapp för random
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRandom_Click(object sender, EventArgs e)
         {
             CreateRandomGrid();
