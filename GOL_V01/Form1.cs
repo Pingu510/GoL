@@ -111,14 +111,14 @@ namespace GOL
 
         private void CreateRandomGrid()
         {
-            for (int i = 0; i < s.PastGameTurnArray.Length; i++)
+            for (int i = 0; i < s.GridSize;)
             {
-                // Update s.PastGameTurnArray values here using random
-                for (int j = 0; j < s.PastGameTurnArray.Length;)
+                for (int j = 0; j < s.GridSize;)
                 {
-                    
-                    s.PastGameTurnArray[i, i] = random.Next();
+                    s.PastGameTurnArray[i, j] = random.Next(2);
+                    j++;
                 }
+                i++;
             }
 
             UpdateGrid();
