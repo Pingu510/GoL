@@ -162,7 +162,7 @@ namespace GOL
                 {
                     int i = Int32.Parse(temparr[n]);
 
-                    //s.NewGameTurnArray[x, y] = i;
+
                     s.PastGameTurnArray[x, y] = i;
                     n++;
                 }

@@ -50,14 +50,13 @@ namespace GOL
             using (var context = new DBContext())
             {
                 Game g = GetGame(GameName);
-                context.Games.Attach(g);
-                context.Games.Remove(g);
-                //context.Games.RemoveRange()
-                context.SaveChanges();
+                if(g != null)
+                {
+                    context.Games.Attach(g);
+                    context.Games.Remove(g);
+                    context.SaveChanges();
+                }                
             }
-            //Game i detta fall kommer kanske bara vara en variabel och inte ett Game objekt
-            //Delete all rounds connected to this g
-            //cascade delete?
         }
 
         public int GetSavedGridSize()
@@ -81,7 +80,8 @@ namespace GOL
             Game gameFound = null;
             using (var c = new DBContext())
             {
-                foreach (Game g in c.Games)
+                var theGames = c.Games.ToList();
+                foreach (Game g in theGames)
                 {
                     if (g.SaveName == GameName)
                     {
@@ -97,9 +97,9 @@ namespace GOL
         public string GetPlayingfield(string GameName)
         {
             string loadedFirstRound = "";
-            Game g = GetGame(GameName);
             using (var c = new DBContext())
             {
+                Game g = GetGame(GameName);
                 c.Games.Attach(g);
                 foreach (GameRound gr in c.Rounds)
                 {
