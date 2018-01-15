@@ -13,7 +13,10 @@ namespace GOL
         int gridSize;
         int increaseRound;
 
-        public void DoSaveGame(string SaveName)//spara spel
+        /// <summary>
+        /// Save games to database by name
+        /// </summary>
+        public void DoSaveGame(string SaveName)
         {
             increaseRound = 0;
             using (var context = new DBContext())
@@ -27,13 +30,15 @@ namespace GOL
             }         
         }
 
+        /// <summary>
+        /// Save every round/iteration of the game grid to DB as a string
+        /// </summary>
         public void DoSaveRounds(string CurrentGameRound, int GridSize)//save rounds
         {         
             using (var context = new DBContext())
             {
                 var newRound = new GameRound();
-                //newRound.SaveID = _currentGame.GameID;
-                
+                                
                 context.Games.Attach(_currentGame);
                 newRound.Game = _currentGame;
                 newRound.GridSize = GridSize;
@@ -45,26 +50,34 @@ namespace GOL
             }
         }
         
+        /// <summary>
+        /// Deletes a game from DB and it's game rounds
+        /// </summary>
         public void DeleteGame(string GameName)
         {
             using (var context = new DBContext())
             {
                 Game g = GetGame(GameName);
-                context.Games.Attach(g);
-                context.Games.Remove(g);
-                //context.Games.RemoveRange()
-                context.SaveChanges();
+                if(g != null)
+                {
+                    context.Games.Attach(g);
+                    context.Games.Remove(g);
+                    context.SaveChanges();
+                }                
             }
-            //Game i detta fall kommer kanske bara vara en variabel och inte ett Game objekt
-            //Delete all rounds connected to this g
-            //cascade delete?
         }
 
+        /// <summary>
+        /// Gets the set grid size from the settings class via the GameRounds class
+        /// </summary>
         public int GetSavedGridSize()
         {
             return gridSize;
         }
 
+        /// <summary>
+        /// Rename the deafult game name "DefaultGameName" at the time you save, to whatever is typed in the text box. 
+        /// </summary>
         public void RenameGame(string OldName, string NewName)
         {
             using (var c = new DBContext())
@@ -76,12 +89,16 @@ namespace GOL
             }
         }
 
+        /// <summary>
+        ///Gets the selected game from DB 
+        /// </summary>
         public Game GetGame(string GameName)
         {
             Game gameFound = null;
             using (var c = new DBContext())
             {
-                foreach (Game g in c.Games)
+                var theGames = c.Games.ToList();
+                foreach (Game g in theGames)
                 {
                     if (g.SaveName == GameName)
                     {
@@ -94,12 +111,15 @@ namespace GOL
             return gameFound;                
         }
 
+        /// <summary>
+        /// Get a saved game round from DB as a string
+        /// </summary>
         public string GetPlayingfield(string GameName)
         {
             string loadedFirstRound = "";
-            Game g = GetGame(GameName);
             using (var c = new DBContext())
             {
+                Game g = GetGame(GameName);
                 c.Games.Attach(g);
                 foreach (GameRound gr in c.Rounds)
                 {

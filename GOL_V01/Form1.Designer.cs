@@ -154,7 +154,7 @@
             // 
             // PlayTimer
             // 
-            this.PlayTimer.Interval = 500;
+            this.PlayTimer.Interval = 50;
             this.PlayTimer.Tick += new System.EventHandler(this.PlayTimer_Tick);
             // 
             // btnRandom
