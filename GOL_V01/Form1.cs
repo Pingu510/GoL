@@ -114,12 +114,9 @@ namespace GOL
             for (int i = 0; i < s.PastGameTurnArray.Length; i++)
             {
                 // Update s.PastGameTurnArray values here using random
-                for (int i = 0; i < s.PastGameTurnArray.Length;)
+                for (int j = 0; j < s.PastGameTurnArray.Length;)
                 {
-                    for (int i = 0; i < length; i++)
-                    {
-
-                    }
+                    
                     s.PastGameTurnArray[i, i] = random.Next();
                 }
             }
@@ -203,9 +200,8 @@ namespace GOL
         {
             if (lstBxSavedGames.SelectedItem != null)
             {
-                string gameName = lstBxSavedGames.SelectedItem.ToString();
-                Game g = manageDB.GetGame(gameName);
-                string loadedGameRound = manageDB.GetPlayingfield(g);
+                string gameName = lstBxSavedGames.SelectedItem.ToString();                
+                string loadedGameRound = manageDB.GetPlayingfield(gameName);
                 if (loadedGameRound != "")
                 {
                     s.GridSize = manageDB.GetSavedGridSize();
@@ -220,14 +216,7 @@ namespace GOL
 
         public void DeleteGame(string GameName)
         {
-            using (var context = new DBContext())
-            {
-                Game g = manageDB.GetGame(GameName);
-                context.Games.Attach(g);
-                context.Games.Remove(g);
-                context.SaveChanges();
-
-            }
+            manageDB.DeleteGame(GameName);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

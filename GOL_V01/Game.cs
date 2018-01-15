@@ -8,8 +8,14 @@ namespace GOL
 {
     public class Game
     {        
+        public Game()
+        {
+            GameRounds = new List<GameRound>();
+        }
         public int GameID { get; set; }
         public string SaveName { get; set; }
-        public DateTime? SaveDate { get; set; }        
+        public DateTime? SaveDate { get; set; }   
+        
+        public virtual ICollection<GameRound> GameRounds { get; set; }
     }
 }

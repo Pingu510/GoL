@@ -13,5 +13,13 @@ namespace GOL
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DBContext, Migrations.Configuration>("DefaultConnection"));
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<GameRound>()
+                .HasOptional<Game>(s => s.Game)
+                .WithMany()
+                .WillCascadeOnDelete(true);
+        }
     }
 }

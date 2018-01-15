@@ -19,8 +19,7 @@ namespace GOL
         {
             s = settings;
             _gridSize = s.GridSize;
-        }
-        
+        }        
 
         public void PlayRound(Settings s)
         {
