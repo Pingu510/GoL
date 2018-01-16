@@ -172,9 +172,9 @@ namespace GOL
         {
             string[] temparr = gameRound.Split(',');
             int n = 0;
-            for (int y = 0; y < s.GridSize; y++)
+            for (int x = 0; x < s.GridSize; x++)
             {
-                for (int x = 0; x < s.GridSize; x++)
+                for (int y = 0; y < s.GridSize; y++)
                 {
                     int i = Int32.Parse(temparr[n]);
 
